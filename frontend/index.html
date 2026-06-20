@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Audiolibros — ADSO</title>
+    <!-- Importación de tipografías premium y modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inter:wght@300..800&family=Outfit:wght@300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Fondo de luz ambiental decorativa -->
+    <div class="ambient-glow bg-glow-1"></div>
+    <div class="ambient-glow bg-glow-2"></div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo-icon">🎧</span>
+                <div class="logo-text">
+                    <h1>ADSO AUDIOBOOKS</h1>
+                    <p>SENA Centro de Formación · Bogotá D.C., 2026</p>
+                </div>
+            </div>
+            <div class="header-badge">Neural TTS v2.8</div>
+        </div>
+    </header>
+
+    <div class="app-layout">
+        <!-- BARRA LATERAL (SIDEBAR): Configuración de Voz Versátil -->
+        <aside class="sidebar-config">
+            <div class="sidebar-card">
+                <div class="sidebar-title">
+                    <span class="icon-sparkle">✨</span>
+                    <h2>Ajustes de Síntesis</h2>
+                </div>
+                <p class="sidebar-subtitle">Personaliza la voz del audiolibro neuronal</p>
+                
+                <hr class="divider">
+
+                <!-- Configuración de Idioma -->
+                <div class="control-group">
+                    <label for="selector-idioma">🌍 Idioma y Acento</label>
+                    <select id="selector-idioma" onchange="actualizarVocesDisponibles()">
+                        <option value="es-CO">Español (Colombia) 🇨🇴</option>
+                        <option value="es-ES">Español (España) 🇪🇸</option>
+                        <option value="es-MX" selected>Español (México) 🇲🇽</option>
+                        <option value="en-US">Inglés (Estados Unidos) 🇺🇸</option>
+                        <option value="pt-BR">Portugués (Brasil) 🇧🇷</option>
+                    </select>
+                </div>
+
+                <!-- Configuración de Voz -->
+                <div class="control-group">
+                    <label for="selector-voz">👤 Modelo de Voz</label>
+                    <select id="selector-voz">
+                        <!-- Se llena dinámicamente con JS, dejando opciones por defecto -->
+                        <option value="female-premium-1">Helena (Femenina Premium)</option>
+                        <option value="male-premium-1" selected>Mateo (Masculino Premium)</option>
+                        <option value="neutral-advanced">Voz Neural Inteligente (ADSO-Bot)</option>
+                    </select>
+                </div>
+
+                <!-- Configuración de Velocidad -->
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="slider-velocidad">⚡ Velocidad de Lectura</label>
+                        <span id="val-velocidad" class="slider-badge">1.0x</span>
+                    </div>
+                    <input type="range" id="slider-velocidad" min="0.5" max="2.0" step="0.1" value="1.0" oninput="cambiarVelocidad(this.value)">
+                    <div class="slider-labels">
+                        <span>Lento</span>
+                        <span>Normal</span>
+                        <span>Rápido</span>
+                    </div>
+                </div>
+
+                <!-- Configuración de Tono/Pitch -->
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="slider-tono">🎵 Tono / Modulación</label>
+                        <span id="val-tono" class="slider-badge">Natural</span>
+                    </div>
+                    <input type="range" id="slider-tono" min="-5" max="5" step="1" value="0" oninput="cambiarTono(this.value)">
+                    <div class="slider-labels">
+                        <span>Grave</span>
+                        <span>Medio</span>
+                        <span>Agudo</span>
+                    </div>
+                </div>
+
+                <!-- Botón de Vista Previa de Voz -->
+                <button class="btn-sidebar-preview" onclick="probarVozSeleccionada()">
+                    <span class="preview-icon">🔊</span> Escuchar Muestra
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENEDOR PRINCIPAL: Área de trabajo y pestañas -->
+        <main class="main-content">
+            <!-- Barra de Pestañas Premium -->
+            <div class="tabs">
+                <button class="tab activo" onclick="mostrarTab('archivo')">
+                    <span class="tab-icon">📄</span> Subir Archivo
+                </button>
+                <button class="tab" onclick="mostrarTab('texto')">
+                    <span class="tab-icon">✏️</span> Pegar Texto
+                </button>
+                <button class="tab" onclick="mostrarTab('historial')">
+                    <span class="tab-icon">📋</span> Historial
+                </button>
+                <button class="tab" onclick="mostrarTab('misaudios')">
+                    <span class="tab-icon">🎵</span> Mis Audios
+                </button>
+            </div>
+
+            <!-- CONTENIDO PESTAÑA: SUBIR ARCHIVO -->
+            <div id="tab-archivo" class="contenido-tab activo">
+                <div class="zona-subida" id="zona-drop">
+                    <!-- Icono SVG Animado Moderno -->
+                    <div class="svg-subida-wrapper">
+                        <svg class="svg-subida" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <p class="txt-principal">Arrastra tu documento aquí o suéltalo</p>
+                    <p class="txt-secundario">Formatos de alta compatibilidad: PDF o DOCX</p>
+                    
+                    <input type="file" id="input-archivo" accept=".pdf,.docx" hidden>
+                    <button class="btn-secundario" onclick="document.getElementById('input-archivo').click()">
+                        Examinar archivos
+                    </button>
+                    
+                    <!-- Tarjeta interactiva del archivo seleccionado -->
+                    <div id="tarjeta-archivo" class="tarjeta-archivo oculto">
+                        <div class="tarjeta-archivo-info">
+                            <span class="file-badge-type" id="tipo-archivo-badge">PDF</span>
+                            <div class="file-detalles">
+                                <span id="nombre-archivo" class="nombre-archivo">documento.pdf</span>
+                                <span id="peso-archivo" class="peso-archivo">0.0 KB</span>
+                            </div>
+                        </div>
+                        <button class="btn-remover-archivo" onclick="removerArchivoSeleccionado(event)" title="Remover archivo">✕</button>
+                    </div>
+                </div>
+                
+                <button class="btn-principal" id="btn-convertir-archivo" onclick="convertirArchivo()">
+                    <span class="btn-icon">⚡</span> PROCESAR Y CONVERTIR A AUDIO
+                </button>
+            </div>
+
+            <!-- CONTENIDO PESTAÑA: PEGAR TEXTO -->
+            <div id="tab-texto" class="contenido-tab">
+                <div class="editor-container">
+                    <textarea id="input-texto" placeholder="Escribe o pega aquí el contenido técnico o literario que deseas convertir en audiolibro..." oninput="actualizarContadorCaracteres()"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-tip">💡 Consejo: Elige una voz pausada para textos de alta complejidad.</span>
+                        <span class="char-counter"><span id="contador-caracteres">0</span> / 5,000</span>
+                    </div>
+                </div>
+                <button class="btn-principal" id="btn-convertir-texto" onclick="convertirTexto()">
+                    <span class="btn-icon">⚡</span> PROCESAR Y CONVERTIR A AUDIO
+                </button>
+            </div>
+
+            <!-- CONTENIDO PESTAÑA: HISTORIAL -->
+            <div id="tab-historial" class="contenido-tab">
+                <div class="historial-header">
+                    <h2>Auditoría de Síntesis Recientes</h2>
+                    <span class="db-sync-badge"><span class="badge-dot"></span> Conectado a MySQL</span>
+                </div>
+                <div id="lista-historial">
+                    <p class="cargando">Cargando trazas del historial desde MySQL...</p>
+                </div>
+            </div>
+
+            <!-- CONTENIDO PESTAÑA: MIS AUDIOS -->
+            <div id="tab-misaudios" class="contenido-tab">
+
+                <!-- Header de la sección -->
+                <div class="misaudios-header">
+                    <div>
+                        <h2>🎵 Biblioteca de Audios</h2>
+                        <p class="misaudios-subtitle">Sube, reproduce, copia y descarga tus propios archivos de audio</p>
+                    </div>
+                    <span class="misaudios-formato-badge">MP3 · WAV · OGG · M4A · FLAC · AAC</span>
+                </div>
+
+                <!-- Zona de Subida de Audio -->
+                <div class="zona-subida zona-audio-drop" id="zona-audio-drop">
+                    <div class="svg-subida-wrapper">
+                        <svg class="svg-subida" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"/>
+                            <circle cx="6" cy="18" r="3"/>
+                            <circle cx="18" cy="16" r="3"/>
+                        </svg>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <p class="txt-principal">Arrastra tu audio aquí o suéltalo</p>
+                    <p class="txt-secundario">Formatos: MP3, WAV, OGG, M4A, FLAC, AAC · Máximo 50 MB</p>
+                    <input type="file" id="input-audio-propio" accept=".mp3,.wav,.ogg,.m4a,.flac,.aac,audio/*" hidden multiple>
+                    <button class="btn-secundario" onclick="document.getElementById('input-audio-propio').click()">
+                        Examinar audios
+                    </button>
+                </div>
+
+                <!-- Barra de progreso de subida -->
+                <div id="audio-upload-progress" class="audio-upload-progress oculto">
+                    <div class="audio-upload-progress-fill" id="audio-upload-bar"></div>
+                </div>
+                <p id="audio-upload-status" class="audio-upload-status"></p>
+
+                <!-- Lista de Audios -->
+                <div id="lista-mis-audios" class="lista-mis-audios">
+                    <p class="cargando">Cargando tu biblioteca...</p>
+                </div>
+
+            </div>
+
+            <!-- PANEL DE RESULTADOS CON REPRODUCTOR DE AUDIO DE ÚLTIMA GENERACIÓN -->
+            <div id="resultado" class="resultado oculto">
+                <div class="resultado-glow"></div>
+                <div class="resultado-header">
+                    <div class="success-icon">✓</div>
+                    <div class="success-title">
+                        <h3>¡Conversión Completada!</h3>
+                        <p>Audio MP3 generado exitosamente mediante algoritmos neuronales</p>
+                    </div>
+                </div>
+
+                <!-- Reproductor de Audio Ultra Moderno -->
+                <div class="player-container">
+                    <div class="player-track-info">
+                        <!-- Icono de disco giratorio o ilustración de onda -->
+                        <div class="player-disc" id="player-disc-element">
+                            <span class="disc-notes">🎵</span>
+                        </div>
+                        <div class="player-meta">
+                            <span class="player-title" id="player-track-title">audiolibro_sintesis.mp3</span>
+                            <span class="player-subtitle" id="player-track-details">Voz: Mateo Premium · Velocidad: 1.0x</span>
+                        </div>
+                        
+                        <!-- Visualizador de barras de onda en tiempo real (animación CSS) -->
+                        <div class="sound-wave" id="sound-wave-bars">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </div>
+                    </div>
+
+                    <!-- Audio HTML5 real oculto para controlarlo con JS -->
+                    <audio id="audio-elemento-oculto" src="" preload="auto"></audio>
+
+                    <!-- Línea de tiempo interactiva -->
+                    <div class="player-timeline-wrapper">
+                        <span class="time-display" id="time-current">00:00</span>
+                        <div class="player-progress-bar" id="player-progress-bg">
+                            <div class="player-progress-fill" id="player-progress-fill"></div>
+                            <div class="player-progress-pin" id="player-progress-pin"></div>
+                        </div>
+                        <span class="time-display" id="time-total">00:00</span>
+                    </div>
+
+                    <!-- Botones de Control Personalizados -->
+                    <div class="player-controls">
+                        <!-- Control de Velocidad de Playback rápida -->
+                        <div class="speed-playback-control">
+                            <button class="btn-player-speed" id="btn-player-speed-toggle" onclick="togglePlayerSpeed()" title="Velocidad de reproducción">1.0x</button>
+                        </div>
+
+                        <!-- Botón Principal Play / Pause -->
+                        <button class="btn-player-play" id="btn-player-play-pause" onclick="togglePlayPause()" title="Reproducir / Pausar">
+                            <svg class="play-svg" id="svg-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-svg oculto" id="svg-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+
+                        <!-- Control de Volumen con Rango Deslizable -->
+                        <div class="volume-control">
+                            <button class="btn-player-mute" id="btn-volume-icon" onclick="toggleMute()" title="Silenciar">🔊</button>
+                            <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="0.8" oninput="cambiarVolumenPlayer(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enlace de Descarga Estilizado como Botón Premium -->
+                <div class="download-section">
+                    <a id="enlace-descarga" class="btn-descarga-premium" href="#" download>
+                        <span class="download-icon">⬇️</span> DESCARGAR MP3 COMPLETO
+                    </a>
+                </div>
+            </div>
+
+            <!-- OVERLAY DE CARGA DE ÚLTIMA GENERACIÓN -->
+            <div id="cargando" class="cargando-overlay oculto">
+                <div class="cargando-glass-box">
+                    <div class="spinner-container">
+                        <div class="spinner"></div>
+                        <div class="spinner-glow"></div>
+                        <div class="spinner-inner-dot"></div>
+                    </div>
+                    <div class="cargando-progress-text">
+                        <p class="loading-main-text">Iniciando síntesis neuronal...</p>
+                        <span class="loading-sub-text" id="cargando-fase-texto">Conectando con el motor TTS de ADSO...</span>
+                    </div>
+                    <!-- Barra de progreso numérica visible -->
+                    <div class="cargando-bar-container">
+                        <div class="cargando-bar-fill" id="cargando-bar-progreso" style="width: 0%"></div>
+                    </div>
+                    <span class="cargando-porcentaje" id="cargando-porcentaje-texto">0%</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>Sistema Web Conversor de Texto a Audiolibros MP3 · Proyecto Formativo ADSO</p>
+            <p class="footer-sub">SENA Centro de Formación de Actividad Física y Cultura — Regional Distrito Capital · 2026</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

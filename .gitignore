@@ -1,0 +1,40 @@
+# =============================================
+# ADSO Audiobook Converter — .gitignore
+# =============================================
+
+# --- Archivos generados (audio sintetizado) ---
+outputs/
+!outputs/.gitkeep
+
+# --- Archivos subidos por usuarios ---
+uploads/*.pdf
+uploads/*.docx
+uploads/*.txt
+uploads/*.mp3
+uploads/audios/
+!uploads/audios/.gitkeep
+
+# --- IDE y editores ---
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+*~
+
+# --- Sistema operativo ---
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# --- PHP temporales ---
+*.log
+error_log
+
+# --- Python cache ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
