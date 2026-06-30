@@ -112,3 +112,13 @@ audiobook-converter/
 ## 📄 Licencia
 
 Proyecto académico formativo — SENA 2026. Todos los derechos reservados.
+
+---
+
+## ????? Autor
+
+**Leynher Ferney Hinestroza Mosquera**
+*Desarrollador Fullstack & Analista de Datos*
+- ?? [LinkedIn](https://linkedin.com) (En construcci�n)
+- ?? [GitHub](https://github.com/LEYNHERHINESTROZA)
+- ?? Email: leynercrs@gmail.com
