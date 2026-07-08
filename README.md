@@ -8,19 +8,19 @@ Aplicación web completa para convertir documentos de texto (PDF, DOCX, TXT) y t
 
 ## ✨ Características
 
-- 📄 **Conversión de archivos** — Sube PDF, DOCX o TXT y convierte a audio MP3
-- ✏️ **Texto directo** — Pega cualquier texto y genera el audio al instante
-- 🎵 **Biblioteca personal** — Sube, reproduce, copia la URL y descarga tus propios audios
-- 🗃️ **Historial MySQL** — Todas las conversiones quedan registradas en base de datos
-- 🎛️ **Control de voz** — Elige idioma, modelo de voz, velocidad y tono
-- ⚡ **Validación Java** — El validador en Java verifica el archivo antes de convertir
-- 🐍 **Motor Python TTS** — Conversión mediante síntesis neuronal de alta fidelidad
+- 📄 **Conversión de archivos** — Sube PDF, DOCX o TXT y convierte a audio MP3.
+- 📝 **Texto directo** — Pega cualquier texto y genera el audio al instante.
+- 📚 **Biblioteca personal** — Sube, reproduce, copia la URL y descarga tus propios audios.
+- 💾 **Historial MySQL** — Todas las conversiones quedan registradas en base de datos.
+- 🎛️ **Control de voz** — Elige idioma, modelo de voz, velocidad y tono.
+- 🛡️ **Validación Java** — El validador en Java verifica el archivo antes de convertir.
+- 🧠 **Motor Python TTS** — Conversión mediante síntesis neuronal de alta fidelidad.
 
 ---
 
-## 🗂️ Estructura del Proyecto
+## 📂 Estructura del Proyecto
 
-```
+```text
 audiobook-converter/
 ├── backend/
 │   ├── conectar.php          # Conexión MySQL
@@ -58,7 +58,7 @@ audiobook-converter/
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/TU_USUARIO/audiobook-converter.git
+   git clone https://github.com/LEYNHERHINESTROZA/audiobook-converter.git
    cd C:/xampp/htdocs/audiobook-converter
    ```
 
@@ -88,7 +88,7 @@ audiobook-converter/
 
 ---
 
-## 🛠️ Tecnologías
+## 💻 Tecnologías
 
 | Capa | Tecnología |
 |------|-----------|
@@ -101,7 +101,7 @@ audiobook-converter/
 
 ---
 
-## 📌 Notas de Configuración
+## ⚙️ Notas de Configuración
 
 - Las URLs del backend apuntan a `http://localhost/audiobook-converter/` — no cambiar si usas XAMPP estándar.
 - La carpeta `uploads/audios/` debe tener permisos de escritura para PHP.
@@ -115,10 +115,10 @@ Proyecto académico formativo — SENA 2026. Todos los derechos reservados.
 
 ---
 
-## ????? Autor
+## 👨‍💻 Autor
 
-**Leynher Ferney Hinestroza Mosquera**
+**Leynher Ferney Hinestroza Mosquera**  
 *Desarrollador Fullstack & Analista de Datos*
-- ?? [LinkedIn](https://linkedin.com) (En construcci�n)
-- ?? [GitHub](https://github.com/LEYNHERHINESTROZA)
-- ?? Email: leynercrs@gmail.com
+- 💼 [LinkedIn](https://linkedin.com) (En construcción)
+- 🐙 [GitHub](https://github.com/LEYNHERHINESTROZA)
+- 📧 Email: leynercrs@gmail.com
